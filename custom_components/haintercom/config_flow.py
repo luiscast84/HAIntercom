@@ -1,4 +1,3 @@
-# config_flow.py
 """Config flow for HAIntercom."""
 from __future__ import annotations
 
@@ -9,6 +8,10 @@ from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.const import CONF_NAME
+from homeassistant.helpers.selector import (
+   EntitySelector,
+   EntitySelectorConfig,
+)
 
 from .const import (
    DOMAIN,
@@ -33,6 +36,10 @@ class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
            await self.async_set_unique_id(user_input[CONF_NAME])
            self._abort_if_unique_id_configured()
            
+           # Convert list of entities to comma-separated string
+           if isinstance(user_input[CONF_DEVICES], list):
+               user_input[CONF_DEVICES] = ",".join(user_input[CONF_DEVICES])
+           
            return self.async_create_entry(
                title=user_input[CONF_NAME],
                data=user_input,
@@ -40,7 +47,12 @@ class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
        data_schema = vol.Schema({
            vol.Required(CONF_NAME): str,
-           vol.Required(CONF_DEVICES): str,
+           vol.Required(CONF_DEVICES): EntitySelector(
+               EntitySelectorConfig(
+                   domain="media_player",
+                   multiple=True,
+               ),
+           ),
            vol.Optional(CONF_REPLY_TIMEOUT, default=DEFAULT_REPLY_TIMEOUT): int,
        })
 
@@ -49,14 +61,6 @@ class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
            data_schema=data_schema,
            errors=errors,
        )
-
-   @staticmethod
-   @callback
-   def async_get_options_flow(
-       config_entry: config_entries.ConfigEntry,
-   ) -> HAIntercomOptionsFlow:
-       """Create the options flow."""
-       return HAIntercomOptionsFlow(config_entry)
 
 
 class HAIntercomOptionsFlow(config_entries.OptionsFlow):
@@ -73,16 +77,36 @@ class HAIntercomOptionsFlow(config_entries.OptionsFlow):
        if user_input is not None:
            return self.async_create_entry(title="", data=user_input)
 
+       # Convert comma-separated string back to list for the selector
+       current_devices = self.config_entry.data.get(CONF_DEVICES, "").split(",")
+
        options_schema = vol.Schema({
-           vol.Required(CONF_DEVICES, 
-               default=self.config_entry.data.get(CONF_DEVICES, "")): str,
-           vol.Optional(CONF_REPLY_TIMEOUT,
+           vol.Required(CONF_DEVICES): EntitySelector(
+               EntitySelectorConfig(
+                   domain="media_player",
+                   multiple=True,
+               ),
+           ),
+           vol.Optional(
+               CONF_REPLY_TIMEOUT,
                default=self.config_entry.data.get(
                    CONF_REPLY_TIMEOUT, DEFAULT_REPLY_TIMEOUT
-               )): int,
+               )
+           ): int,
        })
 
        return self.async_show_form(
            step_id="init",
            data_schema=options_schema,
+           description_placeholders={
+               "current_devices": ", ".join(current_devices)
+           }
        )
+
+   @staticmethod
+   @callback
+   def async_get_options_flow(
+       config_entry: config_entries.ConfigEntry,
+   ) -> HAIntercomOptionsFlow:
+       """Get the options flow."""
+       return HAIntercomOptionsFlow(config_entry)
