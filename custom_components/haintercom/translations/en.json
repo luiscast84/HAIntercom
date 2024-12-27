@@ -1,0 +1,21 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Set up Home Assistant Intercom",
+                "description": "Configure your intercom devices",
+                "data": {
+                    "devices": "Media player entities (comma separated)",
+                    "reply_timeout": "Reply timeout in seconds"
+                }
+            }
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_device": "Invalid device entity"
+        },
+        "abort": {
+            "already_configured": "Device is already configured"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+start_intercom:
+  name: Start Intercom
+  description: Start an intercom session
+  fields:
+    target_device:
+      name: Target Device
+      description: Device to start intercom with
+      required: true
+      selector:
+        entity:
+          domain: media_player
+
+stop_intercom:
+  name: Stop Intercom
+  description: Stop the current intercom session
+
+send_message:
+  name: Send Message
+  description: Send a message through the intercom
+  fields:
+    message:
+      name: Message
+      description: Message to send
+      required: true
+      example: "Dinner is ready!"
+      selector:
+        text:
