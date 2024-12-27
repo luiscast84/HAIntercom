@@ -1,13 +1,12 @@
 {
     "domain": "haintercom",
     "name": "Home Assistant Intercom",
+    "integration_type": "hub",
     "documentation": "https://github.com/luiscast84/HAIntercom",
-    "issue_tracker": "https://github.com/luiscast84/HAIntercom/issues",
-    "dependencies": ["media_player", "tts"],
+    "dependencies": ["media_player"],
     "codeowners": ["@luiscast84"],
     "requirements": [],
     "iot_class": "local_push",
     "version": "1.0.0",
-    "config_flow": true,
     "icon": "icon.svg"
   }

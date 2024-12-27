@@ -1,4 +1,5 @@
-name: HACS Validation
+# .github/workflows/validate.yaml
+name: Validate
 
 on:
   push:
@@ -11,7 +12,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
-      - name: HACS validation
-        uses: "hacs/action@main"
+      - uses: "home-assistant/actions/hassfest@master"
+      - uses: "hacs/action@main"
         with:
           category: "integration"
