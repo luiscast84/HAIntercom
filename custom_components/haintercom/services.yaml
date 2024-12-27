@@ -1,24 +1,23 @@
 # services.yaml
 start_intercom:
-  name: Start Intercom
-  description: Start an intercom session
-  target:
-    entity:
-      integration: haintercom
-      domain: media_player
-  fields:
-    target_device:
-      name: Target Device
-      description: Device to communicate with
-      required: true
-      selector:
-        entity:
-          domain: media_player
-          integration: haintercom
-          
+ name: Start Intercom
+ description: Start an intercom session
+ target:
+   entity:
+     integration: haintercom
+     domain: media_player
+ fields:
+   target_device:
+     name: Target Device
+     description: Device to start intercom with
+     required: true
+     selector:
+       entity:
+         domain: media_player
+
 stop_intercom:
  name: Stop Intercom
- description: Stop the current intercom session
+ description: Stop current intercom session
  target:
    entity:
      integration: haintercom
@@ -26,7 +25,7 @@ stop_intercom:
 
 send_message:
  name: Send Message
- description: Send a message through the intercom
+ description: Send message through intercom
  target:
    entity:
      integration: haintercom
@@ -39,11 +38,11 @@ send_message:
      example: "Dinner is ready!"
      selector:
        text:
+     translation_key: message
    target_device:
-     name: Target Device
+     name: Target Device 
      description: Specific device to send message to (optional)
      required: false
      selector:
        entity:
          domain: media_player
-         integration: haintercom
