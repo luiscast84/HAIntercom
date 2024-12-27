@@ -2,6 +2,7 @@
   "domain": "haintercom",
   "name": "Home Assistant Intercom",
   "codeowners": ["@luiscast84"],
+  "config_flow": true,
   "dependencies": ["media_player"],
   "documentation": "https://github.com/luiscast84/HAIntercom",
   "integration_type": "hub",
