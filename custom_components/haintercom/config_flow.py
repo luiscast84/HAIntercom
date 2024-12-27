@@ -11,10 +11,12 @@ from homeassistant.const import CONF_NAME
 
 from .const import DOMAIN, CONF_DEVICES, CONF_REPLY_TIMEOUT, DEFAULT_REPLY_TIMEOUT
 
+@config_entries.HANDLERS.register(DOMAIN)
 class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
    """Handle a config flow for HAIntercom."""
 
    VERSION = 1
+   CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
 
    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> FlowResult:
        """Handle the initial step."""
