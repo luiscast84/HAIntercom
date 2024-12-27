@@ -21,14 +21,19 @@ SCHEMA_SEND_MESSAGE = vol.Schema({
 async def async_setup_services(hass: HomeAssistant) -> None:
    """Set up services for HAIntercom integration."""
    async def handle_start_intercom(call: ServiceCall) -> None:
-       """Handle start_intercom service."""
-       if target_device := call.data.get("target_device"):
-           await hass.services.async_call(
-               MEDIA_PLAYER_DOMAIN, 
-               "turn_on", 
-               {"entity_id": target_device},
-               blocking=True
-           )
+    """Handle start_intercom service."""
+    target_entity_id = call.target["entity_id"][0]  # Get first targeted entity
+    target_device = call.data["target_device"]
+    
+    await hass.services.async_call(
+        DOMAIN,
+        "media_player",
+        {
+            "entity_id": target_entity_id,
+            "target_device": target_device
+        },
+        blocking=True
+    )
 
    async def handle_stop_intercom(call: ServiceCall) -> None:
        """Handle stop_intercom service."""

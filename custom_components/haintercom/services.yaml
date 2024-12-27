@@ -1,22 +1,21 @@
 # services.yaml
 start_intercom:
- name: Start Intercom
- description: Start an intercom session
- target:
-   entity:
-     integration: haintercom
-     domain: media_player
- fields:
-   target_device:
-     name: Target Device
-     description: Device to start intercom with
-     example: "media_player.nest_hub"
-     required: true
-     selector:
-       entity:
-         domain: media_player
-         integration: haintercom
-
+  name: Start Intercom
+  description: Start an intercom session
+  target:
+    entity:
+      integration: haintercom
+      domain: media_player
+  fields:
+    target_device:
+      name: Target Device
+      description: Device to communicate with
+      required: true
+      selector:
+        entity:
+          domain: media_player
+          integration: haintercom
+          
 stop_intercom:
  name: Stop Intercom
  description: Stop the current intercom session
