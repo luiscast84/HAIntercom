@@ -1,4 +1,4 @@
-"""Config flow for HAIntercom integration."""
+"""Config flow for HAIntercom."""
 from __future__ import annotations
 
 from typing import Any
@@ -9,16 +9,23 @@ from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.const import CONF_NAME
 
-from .const import DOMAIN, CONF_DEVICES, CONF_REPLY_TIMEOUT, DEFAULT_REPLY_TIMEOUT
+from .const import (
+   DOMAIN,
+   CONF_DEVICES,
+   CONF_REPLY_TIMEOUT,
+   DEFAULT_REPLY_TIMEOUT,
+)
 
-@config_entries.HANDLERS.register(DOMAIN)
-class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class HAIntercomConfigFlow(config_entries.ConfigFlow):
    """Handle a config flow for HAIntercom."""
 
    VERSION = 1
+   domain = DOMAIN
    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
 
-   async def async_step_user(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+   async def async_step_user(
+       self, user_input: dict[str, Any] | None = None
+   ) -> FlowResult:
        """Handle the initial step."""
        errors = {}
 
@@ -31,13 +38,15 @@ class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                data=user_input,
            )
 
+       data_schema = vol.Schema({
+           vol.Required(CONF_NAME): str,
+           vol.Required(CONF_DEVICES): str,
+           vol.Optional(CONF_REPLY_TIMEOUT, default=DEFAULT_REPLY_TIMEOUT): int,
+       })
+
        return self.async_show_form(
            step_id="user",
-           data_schema=vol.Schema({
-               vol.Required(CONF_NAME): str,
-               vol.Required(CONF_DEVICES): str,
-               vol.Optional(CONF_REPLY_TIMEOUT, default=DEFAULT_REPLY_TIMEOUT): int,
-           }),
+           data_schema=data_schema,
            errors=errors,
        )
 
@@ -48,6 +57,7 @@ class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
    ) -> HAIntercomOptionsFlow:
        """Create the options flow."""
        return HAIntercomOptionsFlow(config_entry)
+
 
 class HAIntercomOptionsFlow(config_entries.OptionsFlow):
    """HAIntercom config flow options handler."""
@@ -63,20 +73,16 @@ class HAIntercomOptionsFlow(config_entries.OptionsFlow):
        if user_input is not None:
            return self.async_create_entry(title="", data=user_input)
 
+       options_schema = vol.Schema({
+           vol.Required(CONF_DEVICES, 
+               default=self.config_entry.data.get(CONF_DEVICES, "")): str,
+           vol.Optional(CONF_REPLY_TIMEOUT,
+               default=self.config_entry.data.get(
+                   CONF_REPLY_TIMEOUT, DEFAULT_REPLY_TIMEOUT
+               )): int,
+       })
+
        return self.async_show_form(
            step_id="init",
-           data_schema=vol.Schema(
-               {
-                   vol.Required(
-                       CONF_DEVICES,
-                       default=self.config_entry.data.get(CONF_DEVICES, ""),
-                   ): str,
-                   vol.Optional(
-                       CONF_REPLY_TIMEOUT,
-                       default=self.config_entry.data.get(
-                           CONF_REPLY_TIMEOUT, DEFAULT_REPLY_TIMEOUT
-                       ),
-                   ): int,
-               }
-           ),
+           data_schema=options_schema,
        )
