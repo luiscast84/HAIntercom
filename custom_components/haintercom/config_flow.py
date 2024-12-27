@@ -1,3 +1,4 @@
+# config_flow.py
 """Config flow for HAIntercom."""
 from __future__ import annotations
 
@@ -16,11 +17,10 @@ from .const import (
    DEFAULT_REPLY_TIMEOUT,
 )
 
-class HAIntercomConfigFlow(config_entries.ConfigFlow):
+class HAIntercomConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
    """Handle a config flow for HAIntercom."""
 
    VERSION = 1
-   domain = DOMAIN
    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
 
    async def async_step_user(
