@@ -1,48 +1,47 @@
 # services.yaml
 start_intercom:
- name: Start Intercom
- description: Start an intercom session
- target:
-   entity:
-     integration: haintercom
-     domain: media_player
- fields:
-   target_device:
-     name: Target Device
-     description: Device to start intercom with
-     required: true
-     selector:
-       entity:
-         domain: media_player
+  name: Start Intercom
+  description: Start an intercom session
+  target:
+    entity:
+      integration: haintercom
+      domain: media_player
+  fields:
+    target_device:
+      name: Target Device
+      description: Device to start intercom with
+      required: true
+      selector:
+        entity:
+          domain: media_player
 
 stop_intercom:
- name: Stop Intercom
- description: Stop current intercom session
- target:
-   entity:
-     integration: haintercom
-     domain: media_player
+  name: Stop Intercom
+  description: Stop current intercom session
+  target:
+    entity:
+      integration: haintercom
+      domain: media_player
 
 send_message:
- name: Send Message
- description: Send message through intercom
- target:
-   entity:
-     integration: haintercom
-     domain: media_player
- fields:
-   message:
-     name: Message
-     description: Message to send
-     required: true
-     example: "Dinner is ready!"
-     selector:
-       text:
-     translation_key: message
-   target_device:
-     name: Target Device 
-     description: Specific device to send message to (optional)
-     required: false
-     selector:
-       entity:
-         domain: media_player
+  name: Send Message
+  description: Send message through intercom
+  target:
+    entity:
+      integration: haintercom
+      domain: media_player
+  fields:
+    message:
+      name: Message
+      description: Message to send
+      required: true
+      example: "Dinner is ready!"
+      selector:
+        text:
+    target_device:
+      name: Target Device 
+      description: Specific device to send message to (optional)
+      required: false
+      selector:
+        entity:
+          domain: media_player
