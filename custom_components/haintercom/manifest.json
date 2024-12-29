@@ -2,8 +2,9 @@
   "domain": "haintercom",
   "name": "HA Intercom",
   "version": "1.0.0",
-  "codeowners": ["@luiscast84"],
   "documentation": "https://github.com/luiscast84/HAIntercom",
+  "codeowners": ["@luiscast84"],
   "requirements": [],
-  "dependencies": []
+  "dependencies": [],
+  "iot_class": "local_polling"
 }
