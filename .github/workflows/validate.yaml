@@ -9,10 +9,16 @@ on:
 
 jobs:
   validate:
-    runs-on: "ubuntu-22.04"
+    runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libturbojpeg0-dev
       - uses: "home-assistant/actions/hassfest@master"
       - uses: "hacs/action@main"
         with:
+          repository: "https://github.com/luiscast84/HAIntercom"
           category: "integration"
+          path: "custom_components/haintercom"
