@@ -9,16 +9,21 @@ on:
 
 jobs:
   validate:
-    runs-on: "ubuntu-latest"
+    runs-on: "ubuntu-22.04"
     steps:
       - uses: "actions/checkout@v3"
-      - name: Install dependencies
+      - name: Install TurboJPEG
         run: |
           sudo apt-get update
-          sudo apt-get install -y libturbojpeg
+          sudo apt-get install -y libturbojpeg0
+      - name: Set TurboJPEG Path
+        run: |
+          echo "TURBOJPEG_PATH=/usr/lib/x86_64-linux-gnu/libturbojpeg.so" >> $GITHUB_ENV
       - uses: "home-assistant/actions/hassfest@master"
+        env:
+          TURBOJPEG_PATH: /usr/lib/x86_64-linux-gnu/libturbojpeg.so
       - uses: "hacs/action@main"
         with:
-          repository: "https://github.com/luiscast84/HAIntercom"
+          repository: "luiscast84/HAIntercom"
           category: "integration"
           path: "custom_components/haintercom"
