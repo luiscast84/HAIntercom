@@ -1,5 +1,4 @@
-homeassistant
-homeassistant-integration
-custom-integration
+home-assistant
+hacs
+custom-component
 intercom
-smart-home

@@ -1,1 +1,5 @@
-{"name": "Home Assistant Intercom","render_readme": true,"homeassistant": "2024.1.0"}
+{
+    "name": "HA Intercom",
+    "render_readme": true,
+    "hide_brand": true
+}

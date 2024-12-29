@@ -1,13 +1,10 @@
 {
   "domain": "haintercom",
-  "name": "Home Assistant Intercom",
-  "codeowners": ["@luiscast84"],
-  "config_flow": true,
-  "dependencies": ["media_player"],
+  "name": "HA Intercom",
+  "version": "1.0.0",
   "documentation": "https://github.com/luiscast84/HAIntercom",
-  "integration_type": "hub",
-  "iot_class": "local_push",
-  "issue_tracker": "https://github.com/luiscast84/HAIntercom/issues",
+  "dependencies": [],
+  "codeowners": ["@luiscast84"],
   "requirements": [],
-  "version": "1.0.0"
+  "iot_class": "local_polling"
 }
