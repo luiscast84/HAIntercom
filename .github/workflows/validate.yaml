@@ -12,16 +12,13 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v3"
-      - name: Install TurboJPEG
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libturbojpeg0
-          export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+          sudo apt-get install -y libturbojpeg
       - uses: "home-assistant/actions/hassfest@master"
-        env:
-          LD_LIBRARY_PATH: /usr/lib/x86_64-linux-gnu
       - uses: "hacs/action@main"
         with:
-          repository: "luiscast84/HAIntercom"
+          repository: "https://github.com/luiscast84/HAIntercom"
           category: "integration"
           path: "custom_components/haintercom"
